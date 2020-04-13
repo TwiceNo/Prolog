@@ -1,4 +1,5 @@
-/*Номер 3797 обладает интересным свойством.
+/*
+Номер 3797 обладает интересным свойством.
 Будучи простым, можно непрерывно удалять цифры слева направо
 и оставаться простыми на каждом этапе: 3797, 797, 97 и 7.
 Аналогично мы можем работать справа налево: 3797, 379, 37 и 3.
@@ -6,24 +7,50 @@
 слева направо и справа налево. ПРИМЕЧАНИЕ. 2, 3, 5 и 7 не считаются
 усеченными простыми числами.
 Задача должна быть решена без использования списков.
-
-
-1. Make prime (in range (8, 1000000))
-2. For each prime check the description
-
-
-is_prime
-cut_right
-cut_left
-next_prime
-sum
-
 */
+
+
+if(Cond, Then, Else):-
+    Cond -> Then; Else.
+if(Cond, Then):-
+    if(Cond, Then, !).
+if_not(Cond, Else):-
+    if(Cond, !, Else).
 
 
 sum :- sum(0, 11).
 sum(S, X):-
-    X < 1000000, next_prime(X, NX), X1 is X, X2 is X,
-    cut_right(X1)*cut_left(X2) -> (S1 is S+X, sum(S1, NX)); sum(S, NX).
+    X < 400, X1 is X+1, if_not(is_prime(X), sum(S, X1)),
+    if(condition(X), (S1 is S+X, sum(S1, X1)), sum(S, X1)).
 sum(S, X):-
-    X >= 1000000, write("Sum = "), write(S).
+    X >= 400, write("Sum = "), writeln(S), fail.
+
+
+condition(X):-
+    if(cut_right(X), if(cut_left(X), true, false), false).
+
+
+is_prime(X):-
+    if(X > 1,(H is div(X, 2), is_prime(X, 2, H)), false).
+is_prime(X, D, H):-
+    D =< H, R is mod(X, D),
+    if(R =\= 0, (D1 is D+1, is_prime(X, D1, H)), false).
+is_prime(_, D, H):-
+    D > H, true.
+
+
+cut_right(X):-
+    if(X > 9, R is div(X, 10), R is X), is_prime(R),
+    if(R > 9, cut_right(R)).
+cut_right(0):- true.
+
+
+cut_left(X):-
+    range(X, 1).
+cut_left(X, R):-
+    Y is mod(X, R), R1 is R/10, is_prime(Y),
+    if(Y>9, cut_left(Y, R1)).
+
+
+range(X, R):-
+    if(X >= R, (R1 is R*10, range(X, R1)), cut_left(X, R)).
