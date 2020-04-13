@@ -1,8 +1,3 @@
-/*
-для введенного числа построить список всех простых делителей. если
-делится на p^a, в списке p должно присутствовать a раз. список по
-возрастанию.
-*/
 
 if(Cond, Then, Else):-
     Cond -> Then; Else.
@@ -12,31 +7,6 @@ if_not(Cond, Else):-
     if(Cond, !, Else).
 
 
-dividers(X):-
-    make_list(List, X), writeln(List).
-
-
-make_list([], X):-
-    make_list([], X, 2).
-make_list(List, X, Y):-
-    Y =< X, X1 is X, if(is_prime(Y), if(mod(X, Y) = 0,
-                               (count(X1, Y, 0, List)))),
-    Y1 is Y+1, make_list(List, X, Y1).
-
-
-add([], El, N):-
-    N > 0, N1 is N-1, add([El], El, N1).
-add(L, El, N):-
-    N > 0, N1 is N-1, add([L|El], El, N1).
-
-
-count(1, Y, N, List):-
-    add(List, Y, N).
-count(X, Y, N, List):-
-    X > 1, X1 is X/Y, N1 is N+1,
-    count(X1, Y, N1, List).
-
-
 is_prime(X):-
     if(X > 1,(H is div(X, 2), is_prime(X, 2, H)), false).
 is_prime(X, D, H):-
@@ -44,3 +14,18 @@ is_prime(X, D, H):-
     if(R =\= 0, (D1 is D+1, is_prime(X, D1, H)), false).
 is_prime(_, D, H):-
     D > H, true.
+
+
+dividers(X):-
+    dividers(X, X, [], 2).
+dividers(X, Y, List, Z):-
+    Z < X, M is mod(Y, Z),
+    if((M = 0, Y > 1, is_prime(Z)), (Y1 is Y/Z, append(List, [Z], NewList),
+        dividers(X, Y1, NewList, Z)), (Z1 is Z+1, dividers(X, X, List, Z1))).
+dividers(X, _, List, X):-
+    if(is_prime(X), (append(List, [X], NewList), print(NewList)), print(List)). 
+
+
+print([]).
+print([H|T]):-
+    write(H), write(" "), print(T).
