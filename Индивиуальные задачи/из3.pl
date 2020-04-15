@@ -16,11 +16,11 @@ consonants(List):-
 	109, 110, 112, 113, 114, 115, 116, 118, 119, 120, 122].
 
 
-length(List, Length):-
+len(List, Length):-
 	length(List, 0, Length).
-length([], Length, Length):-!.
-length([H|T], Len, Length):-
-	Curr is Len+1, length(T, Curr, Length).
+len([], Length, Length):-!.
+len([H|T], Len, Length):-
+	Curr is Len+1, len(T, Curr, Length).
 
 
 num_cons([], _, _):-!.
@@ -40,29 +40,29 @@ is_cons(Code, [H|T]):-
 %	sort list and print
 
 
-text():-
-	see("D:\repos\Prolog\Индивиуальные задачи\text.txt"),
+text:-
+	see("D:\repos\Prolog\Индивидуалки\text.txt"),
 	text(List), seen, 
-	tell("D:\repos\Prolog\Индивиуальные задачи\text changed.txt"),
+	tell("D:\repos\Prolog\Индивидуалки\text changed.txt"),
 	to_file(List), told.
 text(List):-
-	read_line(Line), length(Line, Length), Length > 0, L is Line,
+	read_line(Line), len(Line, Length), Length > 0, L is Line,
 	consonants(Cons), num_cons(L, Cons, Num), R is Num/Length,
 	append(List, [R|Line], NewList), text(NewList).
 
 
 to_file(List):-
-	sort(List, Sorted), print(Sorted).
+	sort_list(List, Sorted), print(Sorted).
 
 
-sort([], _):-!.
-sort(List, Sorted):-
-	find_min(List, R), sort(List, Sorted, R, List).
-sort([[R|L]|T], Sorted, R, List):-
+sort_list([], _):-!.
+sort_list(List, Sorted):-
+	find_min(List, R), sort_list(List, Sorted, R, List).
+sort_list([[R|L]|T], Sorted, R, List):-
 	append(Sorted, L, NewSorted), delete([R|L], List, NewList),
-	sort(NewList, NewSorted).
-sort([[Y|L]|T], Sorted, R, List):-
-	sort(T, Sorted, R, List).
+	sort_list(NewList, NewSorted).
+sort_list([[Y|L]|T], Sorted, R, List):-
+	sort_list(T, Sorted, R, List).
 
 
 delete(_, [], List):-!.

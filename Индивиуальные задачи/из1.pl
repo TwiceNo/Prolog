@@ -8,15 +8,15 @@ if_not(Cond, Else):-
 
 sum :- sum(0, 23).
 sum(S, X):-
-    X < 100000, X1 is X+1, S1 is S+X, 
+    X < 1000000, X1 is X+1, S1 is S+X, writeln(X),
     if(condition(X), sum(S1, X1), sum(S, X1)).
 sum(S, X):-
-    X = 100000, write("Sum = "), writeln(S), fail.
+    X = 1000000, write("Sum = "), writeln(S), fail.
 
 
 condition(X):-
     is_prime(X),
-    if(cut_right(X), writeln(X), false), 
+    if(cut_right(X), (write('\t'), writeln(X)), false), 
     if(cut_left(X), true, false).
 
 
@@ -24,7 +24,7 @@ is_prime(X):-
     if(X > 1,(H is div(X, 2), is_prime(X, 2, H)), false).
 is_prime(X, D, H):-
     D =< H, R is mod(X, D),
-    if(R =\= 0, (D1 is D+1, is_prime(X, D1, H)), false).
+    if(R =\= 0, (D1 is D + 1, is_prime(X, D1, H)), false).
 is_prime(_, D, H):-
     D > H, true.
 
@@ -38,9 +38,9 @@ cut_right(0):- true.
 cut_left(X):-
     range(X, 1).
 cut_left(X, R):-
-    Y is mod(X, R), R1 is R/10, is_prime(Y),
-    if(Y>9, cut_left(Y, R1)).
+    Y is mod(X, R), R1 is R / 10, is_prime(Y),
+    if(Y > 9, cut_left(Y, R1)).
 
 
 range(X, R):-
-    if(X >= R, (R1 is R*10, range(X, R1)), cut_left(X, R)).
+    if(X >= R, (R1 is R * 10, range(X, R1)), cut_left(X, R)).
