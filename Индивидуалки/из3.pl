@@ -41,9 +41,9 @@ is_cons(Code, [H|T]):-
 
 
 text():-
-	see("D:\repos\Prolog\Индивиуальные задачи\text.txt"),
+	see("D:\repos\Prolog\Индивидуалки\text.txt"),
 	text(List), seen, 
-	tell("D:\repos\Prolog\Индивиуальные задачи\text changed.txt"),
+	tell("D:\repos\Prolog\Индивидуалки\text changed.txt"),
 	to_file(List), told.
 text(List):-
 	read_line(Line), length(Line, Length), Length > 0, L is Line,
