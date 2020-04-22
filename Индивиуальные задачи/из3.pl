@@ -1,9 +1,9 @@
-/*В файле дан текст. Переставить и вывести в отдельный файл 
+/*В файле дан текст. Переставить и вывести в отдельный файл
 строки заданного текста в соответствии с ростом доли согласных в строках.*/
 
 
 read_line(Line):-
-    get_code(H), 
+    get_code(H),
     (
         code_type(H, end_of_line), !;
         code_type(H, end_of_file), !;
@@ -12,15 +12,15 @@ read_line(Line):-
 
 
 consonants(List):-
-	List = [98, 99, 100, 102, 103, 104, 106, 107, 108, 
+	List = [98, 99, 100, 102, 103, 104, 106, 107, 108,
 	109, 110, 112, 113, 114, 115, 116, 118, 119, 120, 122].
 
 
-length(List, Length):-
-	length(List, 0, Length).
-length([], Length, Length):-!.
-length([H|T], Len, Length):-
-	Curr is Len+1, length(T, Curr, Length).
+len(List, Length):-
+	len(List, 0, Length).
+len([], Length, Length):-!.
+len([H|T], Len, Length):-
+	Curr is Len+1, len(T, Curr, Length).
 
 
 num_cons([], _, _):-!.
@@ -34,35 +34,35 @@ is_cons(Code, [H|T]):-
 
 
 %	open file
-%	read line 
-%	get length and consonants number
+%	read line
+%	get len and consonants number
 %	save line in new list as list itself, first element is ratio
-%	sort list and print
+%	sort_list list and print
 
 
 text():-
-	see("D:\repos\Prolog\Индивиуальные задачи\text.txt"),
-	text(List), seen, 
-	tell("D:\repos\Prolog\Индивиуальные задачи\text changed.txt"),
+	see("D:\text.txt"),
+	text(List), seen,
+	tell("D:\text changed.txt"),
 	to_file(List), told.
 text(List):-
-	read_line(Line), length(Line, Length), Length > 0, L is Line,
+	read_line(Line), len(Line, Length), Length > 0, L is Line,
 	consonants(Cons), num_cons(L, Cons, Num), R is Num/Length,
 	append(List, [R|Line], NewList), text(NewList).
 
 
 to_file(List):-
-	sort(List, Sorted), print(Sorted).
+	sort_list(List, Sorted), print(Sorted).
 
 
-sort([], _):-!.
-sort(List, Sorted):-
-	find_min(List, R), sort(List, Sorted, R, List).
-sort([[R|L]|T], Sorted, R, List):-
+sort_list([], _):-!.
+sort_list(List, Sorted):-
+	find_min(List, R), sort_list(List, Sorted, R, List).
+sort_list([[R|L]|T], Sorted, R, List):-
 	append(Sorted, L, NewSorted), delete([R|L], List, NewList),
-	sort(NewList, NewSorted).
-sort([[Y|L]|T], Sorted, R, List):-
-	sort(T, Sorted, R, List).
+	sort_list(NewList, NewSorted).
+sort_list([[Y|L]|T], Sorted, R, List):-
+	sort_list(T, Sorted, R, List).
 
 
 delete(_, [], List):-!.

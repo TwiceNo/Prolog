@@ -6,9 +6,9 @@ if_not(Cond, Else):-
     if(Cond, !, Else).
 
 
-sum :- sum(0, 23).
+sum :- sum(23, 1000000).
 sum(S, X):-
-    X < 1000000, X1 is X+1, S1 is S+X, writeln(X),
+    X < 1000000, X1 is X+1, S1 is S+X, 
     if(condition(X), sum(S1, X1), sum(S, X1)).
 sum(S, X):-
     X = 1000000, write("Sum = "), writeln(S), fail.
@@ -16,7 +16,7 @@ sum(S, X):-
 
 condition(X):-
     is_prime(X),
-    if(cut_right(X), (write('\t'), writeln(X)), false), 
+    if(cut_right(X), TimeSaver is 0, false), 
     if(cut_left(X), true, false).
 
 
