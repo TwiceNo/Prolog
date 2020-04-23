@@ -19,10 +19,10 @@ much_stronger(Strong, Weak, List):-
 	in_list(List, [Strong, Somebody]),
 	in_list(List, [Somebody, Weak]);
 	much_stronger(Somebody, Weak, List).
-	
+
 
 boxers:-
-	Boxers = [_, _, _, _], 
+	Boxers = [_, _, _], 
 	
 	(
 		%Herbert much stronger than Thomas.
@@ -48,12 +48,22 @@ boxers:-
 		);
 
 		(
+			much_stronger(francis_james, herbert_francis, Boxers),
+			much_stronger(francis_james, thomas_herbert, Boxers)
+		);
+
+		(
 			in_list(Boxers, [herbert_francis, james_thomas]),
 			much_stronger(herbert_francis, thomas_herbert, Boxers)
 		);
 
 		(
 			in_list(Boxers, [herbert_francis, thomas_herbert]),
+			much_stronger(herbert_francis, james_thomas, Boxers)
+		);
+
+		(
+			much_stronger(herbert_francis, thomas_herbert, Boxers),
 			much_stronger(herbert_francis, james_thomas, Boxers)
 		)
 	),
@@ -71,6 +81,8 @@ boxers:-
 		in_list(Boxers, [herbert_francis, francis_james]);
 		in_list(Boxers, [thomas_herbert, herbert_francis])
 	),
+
+
 	print(Boxers).
 
 
