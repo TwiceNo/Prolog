@@ -6,7 +6,7 @@ if_not(Cond, Else):-
     if(Cond, !, Else).
 
 
-sum :- sum(23, 1000000).
+sum :- sum(0, 23).
 sum(S, X):-
     X < 1000000, X1 is X+1, S1 is S+X, 
     if(condition(X), sum(S1, X1), sum(S, X1)).

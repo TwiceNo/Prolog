@@ -2,71 +2,107 @@
 строки заданного текста в соответствии с ростом доли согласных в строках.*/
 
 
+if(Cond, Then, Else):-
+	Cond -> Then; Else.
+if(Cond, Then):-
+	Cond -> Then.
+
+
+text:- 
+	see('d:/text.txt'), 
+	tell('d:/text changed.txt'), 
+	read_line(Line), text(List, Line), 
+	seen, told, writeln("Done.").
+
+text(List, ""):-
+	to_file(List), !.
+text(List, Line):-
+	consonants(Cons), string_chars(Line, Chars),
+	count(Chars, Num, 0),
+	string_length(Line, Len), R is Num / Len, 
+	append(List, [[R, Line]], NewList), 
+	read_line(NLine), text(NewList, NLine).
+
+
+consonants(Cons):-
+	Cons = [b, c, d, f, g, h, j, k, l, m, n, p, 
+			q, r, s, t, v, w, x, y, z].
+
+
+count([], Num, N):- 
+	Num is N.
+count([H|T], Num, N):-
+	consonants(Cons),
+	if(
+			is_consonant(H, Cons), 
+			(N1 is N + 1, count(T, Num, N1)), 
+			count(T, Num, N)
+		).
+
+
+is_consonant(Char):-
+	consonants(Cons), is_consonant(Char, Cons).
+
+is_consonant(Char, []):- false.
+is_consonant(Char, [Char|T]):- true.
+is_consonant(Char, [H|T]):-
+	is_consonant(Char, T).
+
+
 read_line(Line):-
-    get_code(H),
-    (
-        code_type(H, end_of_line), !;
-        code_type(H, end_of_file), !;
-        Line = [H|T], read_line(T)
-    ).
-
-
-consonants(List):-
-	List = [98, 99, 100, 102, 103, 104, 106, 107, 108,
-	109, 110, 112, 113, 114, 115, 116, 118, 119, 120, 122].
-
-
-len(List, Length):-
-	len(List, 0, Length).
-len([], Length, Length):-!.
-len([H|T], Len, Length):-
-	Curr is Len+1, len(T, Curr, Length).
-
-
-num_cons([], _, _):-!.
-num_cons([H|T], Cons, Num):-
-	if(is_cons(H), N is Num+1, N is Num), num_cons(T, Cons, N).
-
-
-is_cons(_, []):- false.
-is_cons(Code, [H|T]):-
-	if(Code = H, true, is_cons(Code, T)).
-
-
-%	open file
-%	read line
-%	get len and consonants number
-%	save line in new list as list itself, first element is ratio
-%	sort_list list and print
-
-
-text():-
-	see("D:\text.txt"),
-	text(List), seen,
-	tell("D:\text changed.txt"),
-	to_file(List), told.
-text(List):-
-	read_line(Line), len(Line, Length), Length > 0, L is Line,
-	consonants(Cons), num_cons(L, Cons, Num), R is Num/Length,
-	append(List, [R|Line], NewList), text(NewList).
+	read(Char),
+	if(Char = end_of_file, Line = "", Line = Char).
+		%string_chars(Char, Line)).
 
 
 to_file(List):-
-	sort_list(List, Sorted), print(Sorted).
+	sort_list(List). 
 
 
-sort_list([], _):-!.
-sort_list(List, Sorted):-
-	find_min(List, R), sort_list(List, Sorted, R, List).
-sort_list([[R|L]|T], Sorted, R, List):-
-	append(Sorted, L, NewSorted), delete([R|L], List, NewList),
-	sort_list(NewList, NewSorted).
-sort_list([[Y|L]|T], Sorted, R, List):-
+sort_list(List):-
+	min_key(List, R, 1), sort_list(List, Sorted, R, List).
+
+sort_list(_, Sorted, _, []):-
+	print(Sorted).
+sort_list([], Sorted, R, List):-
+	sort_list(List, Sorted, R, List).
+
+sort_list([[R, Line]|T], Sorted, R, List):-
+	%string_chars(Str, Line),
+	append(Sorted, [Line], NewSorted), 
+	delete(List, [R, Line], NewList),
+	min_key(NewList, Min, 1), 
+	sort_list(NewList, NewSorted, Min, NewList).
+
+sort_list([[Y, _]|T], Sorted, R, List):-
 	sort_list(T, Sorted, R, List).
+	
+
+min_key([], R, M):-
+	R is M.
+min_key([[N, Line]|T], R, M):-
+	N < M, min_key(T, R, N).
+min_key([[H, L]|T], R, M):-
+	min_key(T, R, M).
 
 
-delete(_, [], List):-!.
-delete(El, [El|T], List):-
-	delete(El, T, List).
-delete(EL, [H|T], List):-
-	delete(El, T, [H|List]).
+print([]):-!.
+print([H|T]):-
+	writeln(H), print(T).
+
+
+
+
+
+test:-
+	read_line(Line), 
+	count(Line, Num, 0),
+	writeln(Line), writeln(Num).
+
+
+
+
+test2:-
+	read_line(Line),
+	tell('d:/test2.txt'),
+	writeln(Line), told.
