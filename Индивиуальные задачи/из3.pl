@@ -9,13 +9,12 @@ if(Cond, Then):-
 
 
 text:- 
-	see('d:/text.txt'), 
-	tell('d:/text changed.txt'), 
+	see('d:/text.txt'), tell('d:/text changed.txt'), 
 	read_line(Line), read_text(List, Line), 
 	seen, told, writeln("Done.").
 
 
-read_text(List, ""):-
+read_text(List, ''):-
 	to_file(List), !.
 read_text(List, Line):-
 	consonants(Cons), string_chars(Line, Chars),
@@ -27,7 +26,9 @@ read_text(List, Line):-
 
 consonants(Cons):-
 	Cons = [b, c, d, f, g, h, j, k, l, m, n, p, 
-			q, r, s, t, v, w, x, y, z].
+		q, r, s, t, v, w, x, y, z, 'B', 'C', 'D', 
+		'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 
+		'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'].
 
 
 count([], Num, N):- 
@@ -51,8 +52,12 @@ is_consonant(Char, [H|T]):-
 
 
 read_line(Line):-
-	read(Char),
-	if(Char = end_of_file, Line = "", Line = Char).
+	readln(Words),
+	if(
+		Words = [], 
+		Line = '', 
+		atomic_list_concat(Words, ' ', Line)
+		).
 
 
 to_file(List):-
@@ -88,3 +93,10 @@ min_key([[H, L]|T], R, M):-
 print([]):-!.
 print([H|T]):-
 	writeln(H), print(T).
+
+
+
+
+test:-
+	read_line(Line), %make_line(Line, Str, ""), 
+	writeln(Line).
