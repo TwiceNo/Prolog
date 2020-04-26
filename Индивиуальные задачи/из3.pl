@@ -11,17 +11,18 @@ if(Cond, Then):-
 text:- 
 	see('d:/text.txt'), 
 	tell('d:/text changed.txt'), 
-	read_line(Line), text(List, Line), 
+	read_line(Line), read_text(List, Line), 
 	seen, told, writeln("Done.").
 
-text(List, ""):-
+
+read_text(List, ""):-
 	to_file(List), !.
-text(List, Line):-
+read_text(List, Line):-
 	consonants(Cons), string_chars(Line, Chars),
 	count(Chars, Num, 0),
 	string_length(Line, Len), R is Num / Len, 
 	append(List, [[R, Line]], NewList), 
-	read_line(NLine), text(NewList, NLine).
+	read_line(NLine), read_text(NewList, NLine).
 
 
 consonants(Cons):-
@@ -34,10 +35,10 @@ count([], Num, N):-
 count([H|T], Num, N):-
 	consonants(Cons),
 	if(
-			is_consonant(H, Cons), 
-			(N1 is N + 1, count(T, Num, N1)), 
-			count(T, Num, N)
-		).
+		is_consonant(H, Cons), 
+		(N1 is N + 1, count(T, Num, N1)), 
+		count(T, Num, N)
+	).
 
 
 is_consonant(Char):-
@@ -52,7 +53,6 @@ is_consonant(Char, [H|T]):-
 read_line(Line):-
 	read(Char),
 	if(Char = end_of_file, Line = "", Line = Char).
-		%string_chars(Char, Line)).
 
 
 to_file(List):-
@@ -68,7 +68,6 @@ sort_list([], Sorted, R, List):-
 	sort_list(List, Sorted, R, List).
 
 sort_list([[R, Line]|T], Sorted, R, List):-
-	%string_chars(Str, Line),
 	append(Sorted, [Line], NewSorted), 
 	delete(List, [R, Line], NewList),
 	min_key(NewList, Min, 1), 
@@ -89,20 +88,3 @@ min_key([[H, L]|T], R, M):-
 print([]):-!.
 print([H|T]):-
 	writeln(H), print(T).
-
-
-
-
-
-test:-
-	read_line(Line), 
-	count(Line, Num, 0),
-	writeln(Line), writeln(Num).
-
-
-
-
-test2:-
-	read_line(Line),
-	tell('d:/test2.txt'),
-	writeln(Line), told.
