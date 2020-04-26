@@ -14,12 +14,16 @@ in_list([_|T],El):-
 	in_list(T,El).
 
 
+stronger(Strong, Weak, List):-
+	in_list(List, [Strong, Weak]).
+
+
 much_stronger(Strong, Weak, []).
 much_stronger(Strong, Weak, List):-
-	in_list(List, [Strong, Somebody]),
-	in_list(List, [Somebody, Weak]);
+	stronger(Strong, Somebody, List),
+	stronger(Somebody, Weak, List);
 	much_stronger(Somebody, Weak, List).
-
+	
 
 boxers:-
 	Boxers = [_, _, _], 
@@ -30,59 +34,75 @@ boxers:-
 		%strong, weak
 
 		much_stronger(herbert_francis, thomas_herbert, Boxers);
+		much_stronger(thomas_herbert, james_thomas, Boxers)
+
+/*
+		much_stronger(herbert_francis, thomas_herbert, Boxers);
 		
 		much_stronger(thomas_herbert, james_thomas, Boxers)
+*/
+
 	),
 
 	(
 		%Francis is stronger than Thomas and Herbert
-		
+	
 		(
-			in_list(Boxers, [francis_james, thomas_herbert]),
+			stronger(francis_james, thomas_herbert, Boxers),
+			much_stronger(francis_james, herbert_francis, Boxers)
+		);
+		(
+			stronger(francis_james, herbert_francis, Boxers),
+			much_stronger(francis_james, thomas_herbert, Boxers)
+		);
+		(
+			much_stronger(francis_james, thomas_herbert, Boxers),
 			much_stronger(francis_james, herbert_francis, Boxers)
 		);
 
 		(
-			in_list(Boxers, [francis_james, herbert_francis]),
-			much_stronger(francis_james, thomas_herbert, Boxers)
-		);
-
-		(
-			much_stronger(francis_james, herbert_francis, Boxers),
-			much_stronger(francis_james, thomas_herbert, Boxers)
-		);
-
-		(
-			in_list(Boxers, [herbert_francis, james_thomas]),
+			stronger(herbert_francis, james_thomas, Boxers),
 			much_stronger(herbert_francis, thomas_herbert, Boxers)
 		);
-
 		(
-			in_list(Boxers, [herbert_francis, thomas_herbert]),
+			stronger(herbert_francis, thomas_herbert, Boxers),
 			much_stronger(herbert_francis, james_thomas, Boxers)
 		);
-
 		(
 			much_stronger(herbert_francis, thomas_herbert, Boxers),
 			much_stronger(herbert_francis, james_thomas, Boxers)
 		)
-	),
-
+	),	
 	(
 		%Herbert is weaker than James
 
+		stronger(james_thomas, herbert_francis, Boxers);
+		much_stronger(james_thomas, herbert_francis, Boxers);
+
+		stronger(francis_james, thomas_herbert, Boxers);
+		much_stronger(francis_james, thomas_herbert, Boxers)
+
+
+/*
 		in_list(Boxers, [james_thomas, herbert_francis]);
 		in_list(Boxers, [francis_james, thomas_herbert])
+		*/
 	),
 
 	(
 		%Herbert is stronger than Francis
 
+		stronger(herbert_francis, francis_james, Boxers);
+		much_stronger(herbert_francis, francis_james, Boxers);
+
+		stronger(thomas_herbert, herbert_francis, Boxers);
+		much_stronger(thomas_herbert, herbert_francis, Boxers)
+
+/*
 		in_list(Boxers, [herbert_francis, francis_james]);
 		in_list(Boxers, [thomas_herbert, herbert_francis])
+		*/
 	),
-
-
 	print(Boxers).
 
 
