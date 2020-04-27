@@ -42,9 +42,6 @@ count([H|T], Num, N):-
 	).
 
 
-is_consonant(Char):-
-	consonants(Cons), is_consonant(Char, Cons).
-
 is_consonant(Char, []):- false.
 is_consonant(Char, [Char|T]):- true.
 is_consonant(Char, [H|T]):-
