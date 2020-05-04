@@ -42,9 +42,6 @@ count([H|T], Num, N):-
 	).
 
 
-is_consonant(Char):-
-	consonants(Cons), is_consonant(Char, Cons).
-
 is_consonant(Char, []):- false.
 is_consonant(Char, [Char|T]):- true.
 is_consonant(Char, [H|T]):-
@@ -93,10 +90,3 @@ min_key([[H, L]|T], R, M):-
 print([]):-!.
 print([H|T]):-
 	writeln(H), print(T).
-
-
-
-
-test:-
-	read_line(Line), %make_line(Line, Str, ""), 
-	writeln(Line).
