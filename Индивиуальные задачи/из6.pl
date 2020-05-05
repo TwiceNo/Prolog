@@ -1,64 +1,52 @@
 %Дан произвольный неориентированный граф. 
 %Построить наибольшее паросочетание.
 
-
 if(Cond, Then, Else):-
 	Cond -> Then; Else.
 if(Cond, Then):-
-	if(Cond, Then, !).
+	Cond -> Then.
 
 
 match:-
-	read_graph(Nodes, Edges), max_match(Edges, Match, 0), 
-	print(Match).
+	writeln("Enter the edges, '-' to stop."),
+	read_edges([], Edges), longest_match(Edges, [], Match), 
+	writeln("The longest match:"), print(Match).
 
 
-read_graph(Nodes, Edges):-
-	writeln("Type -1 to stop"),
-	writeln("\nNodes:"), read_list(Nodes).
-%	writeln("\nType as an example: [A, B]"),
-%	writeln("\nEdges:"), read_list(Edges),
-%	writeln(Nodes), writeln(Edges).
+read_edges(List, Edges):-
+	readln(Edge), get_edge(Edge, V),
+	if(
+		V = '-', 
+		Edges = List, 
+		(append(List, [Edge], NList), read_edges(NList, Edges))
+	).
+
+
+longest_match([], Curr, Match):-
+	Match = Curr.
+longest_match([H|T], Curr, Match):-
+	get_match([H|T], [], M), length(M, L1), length(Curr, L2),
+	if(L1 > L2, longest_match(T, M, Match), longest_match(T, Curr, Match)).
+
+
+get_match([], Curr, Match):-
+	Match = Curr.
+get_match([H|T], Curr, Match):-
+	get_edge(H, V1, V2), 
+	delete([H|T], [V1, _], L1), delete(L1, [_, V1], NoV1),
+	delete(NoV1, [V2, _], L2), delete(L2, [_, V2], NoV2),
+	append(Curr, [H], NCurr), 
+	get_match(NoV2, NCurr, Match).
+
+
+get_edge([H|_], H).
+get_edge([H, T], H, T).
+
+
+print([]).
+print([H|T]):-
+	get_edge(H, V1, V2), write(V1), write(" "), write(V2), nl, print(T).
 
 
 test:-
-	read(El), writeln(El).
-
-
-read_list(List):-
-	read(El), read_list(List, El).
-read_list(List, -1):-!.
-read_list(List, El):-
-	append(List, [El], NewList), read(NewEl),
-	read_list(NewList, NewEl).
-	
-
-
-max_match([H|T], Match, Len):-
-	make_match([H|T], SomeMatch), len(SomeMatch, L),
-	if(L > Len, max_match(T, SomeMatch), max_match(T, Match)).
-
-
-make_match(Edges, Match):-
-	make_match(Edges, Match, []).
-make_match([[A, B]|T], Match, Vis):-
-	if(
-			is_used(A, B, Vis), make_match(T, Match, Vis),
-			(
-				append(Match, [A, B], NewMatch), append(Vis, A, Vis1),
-				append(Vis1, B, Visited), make_match(T, NewMatch, Visited)
-			)
-		).
-
-
-is_used(_, _, []):- false.
-is_used(A, _, [A|_]):- true.
-is_used(_, B, [B|_]):- true.
-is_used(A, B, [H|T]):-
-	is_used(A, B, T).	
-
-
-len([], _):- !.
-len([H|T], Len):-
-	if(var(Len), Len is 0), NewLen is Len + 1, len(T, NewLen).
-
+	readln(X), writeln(X).
