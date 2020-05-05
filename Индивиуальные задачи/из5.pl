@@ -5,13 +5,21 @@
 вообще.
 */
 
-words(N, K, M):-
-	(N < (M + K)); (N - M - K > 4), writeln("Недопустимые условия"), !.
-words(N, K, M):-
-	tell('words.txt'), make_words(N, K, M, Words), told.
+:- dynamic word/1.
 
 
-make_words(N, K, M, Wods):-
+if(Cond, Then):-
+	Cond -> Then.
+
+
+words(N, K, M):-
+	(N < M + K; N - M - K > 4), writeln("Invalid conditions"), !.
+words(N, K, M):-
+	 make_words(N, K, M), remove_duplicates,
+	 tell('d:/words.txt'), print, told, abolish(word, 1).
+
+
+make_words(N, K, M):-
 	push([], f, K, 0, Word), push(Word, c, M, 0, NWord), N1 is N - K - M, 
 	get_rest(Rest),
 	repeat,
@@ -38,11 +46,11 @@ comb([_|List], T, N):-
 	comb(List, T, N).
 
 
-
 permutations(Word):-
 	repeat,
 	(
-		(permutation(Word, W), printf(W), fail); !
+		(permutation(Word, W), atomic_list_concat(W, N), 
+		assert(word(N)), fail); !
 	).
 
 
@@ -56,18 +64,16 @@ select(H, [Y|T], [Y|T1]):-
 	select(H, T, T1).
 
 
-printf([]):- nl.
-printf([H|T]):-
-	write(H), printf(T).
-
-
-
-
-
-
-test:-
+print:-
 	repeat,
 	(
-		(comb([a, b, c], X, 2), 
-		permutations(X), fail); !
+		(word(X), writeln(X), fail); !
 	).
+
+
+remove_duplicates:-
+	repeat,
+	(
+		(word(X), retractall(word(X)), assert(word(X)), fail); !
+	).
+
