@@ -46,7 +46,3 @@ get_edge([H, T], H, T).
 print([]).
 print([H|T]):-
 	get_edge(H, V1, V2), write(V1), write(" "), write(V2), nl, print(T).
-
-
-test:-
-	readln(X), writeln(X).

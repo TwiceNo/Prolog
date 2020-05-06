@@ -15,8 +15,8 @@ if(Cond, Then):-
 words(N, K, M):-
 	(N < M + K; N - M - K > 4), writeln("Invalid conditions"), !.
 words(N, K, M):-
-	 make_words(N, K, M), remove_duplicates,
-	 tell('d:/words.txt'), print, told, abolish(word, 1).
+	make_words(N, K, M), remove_duplicates,
+	tell('d:/repos/prlg/prolog/words.txt'), print, told, abolish(word, 1).
 
 
 make_words(N, K, M):-

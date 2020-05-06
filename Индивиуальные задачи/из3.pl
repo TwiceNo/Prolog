@@ -9,7 +9,8 @@ if(Cond, Then):-
 
 
 text:- 
-	see('d:/text.txt'), tell('d:/text changed.txt'), 
+	see('d:/repos/prlg/prolog/text.txt'), 
+	tell('d:/repos/prlg/prolog/text changed.txt'), 
 	read_line(Line), read_text(List, Line), 
 	seen, told, writeln("Done.").
 
@@ -17,7 +18,7 @@ text:-
 read_text(List, ''):-
 	to_file(List), !.
 read_text(List, Line):-
-	consonants(Cons), string_chars(Line, Chars),
+	string_chars(Line, Chars),
 	count(Chars, Num, 0),
 	string_length(Line, Len), R is Num / Len, 
 	append(List, [[R, Line]], NewList), 
@@ -26,9 +27,9 @@ read_text(List, Line):-
 
 consonants(Cons):-
 	Cons = [b, c, d, f, g, h, j, k, l, m, n, p, 
-		q, r, s, t, v, w, x, y, z, 'B', 'C', 'D', 
-		'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 
-		'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'].
+	q, r, s, t, v, w, x, y, z, 'B', 'C', 'D', 
+	'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 
+	'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'].
 
 
 count([], Num, N):- 
@@ -43,7 +44,7 @@ count([H|T], Num, N):-
 
 
 is_consonant(Char, []):- false.
-is_consonant(Char, [Char|T]):- true.
+is_consonant(Char, [Char|_]):- true.
 is_consonant(Char, [H|T]):-
 	is_consonant(Char, T).
 
@@ -54,7 +55,7 @@ read_line(Line):-
 		Words = [], 
 		Line = '', 
 		atomic_list_concat(Words, ' ', Line)
-		).
+	).
 
 
 to_file(List):-
