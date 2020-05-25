@@ -3,7 +3,7 @@ alp	10	1	1	0	2	0	4
 arachas	5	0	0	0	2	4	5	
 barghest	9	1	0	0	0	3	8	
 basilisk	2	2	0	0	0	1	5	
-botchling	1	0	0	1	0	0	0	
+botchling	1	0	0	1	0	0	3	
 bruxa	10	0	1	1	2	0	2	
 djinn	3	0	1	1	2	8	8	
 doppler	8	0	1	1	2	0	0	
