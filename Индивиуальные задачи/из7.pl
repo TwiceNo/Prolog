@@ -8,7 +8,7 @@
 
 
 if(Cond, Then, Else):-
-	Cond -> Then, Else.
+	Cond -> Then; Else.
 if(Cond, Then):-
 	Cond -> Then.
 
@@ -20,7 +20,7 @@ monster:-
 	get_activity(Ac), get_habitat(H), 
 	get_abilities(Ab), 
 	get_monster([M, C, T, S, P, Ac, H, Ab]),
-	writeln(M), %add_monster(M, C, T, S, P, Ac, H, Ab)),
+	if(M = nil, (add_monster(Name, C, T, S, P, Ac, H, Ab), writeln(Name)), writeln(M)),
 	base_to_file, restore_base.
 
 
@@ -84,7 +84,7 @@ get_habitat(Habitat):-
 
 
 get_abilities(Abil):-
-	writeln("\nWhat tactics does it use in battle?"),
+	writeln("\nWhich tactic does it use in battle mostly?"),
 	writeln("0. None."),
 	writeln("1. Disappears and reappears."),
 	writeln("2. Becomes invisible."),
@@ -97,7 +97,7 @@ get_abilities(Abil):-
 	read(Abil).
 
 
-add_monster(M, C, T, S, P, Ac, H, Ab):-
+add_monster(Name, C, T, S, P, Ac, H, Ab):-
 	writeln("\nNo matches found."),
 	writeln("Do you want to add your monster to the base?"),
 	writeln("0. No."),
@@ -105,8 +105,8 @@ add_monster(M, C, T, S, P, Ac, H, Ab):-
 	read(F),
 	if(
 		F = 1, 
-		(writeln("\nWrite your monster:"), read(M), 
-		add_to_base(M, C, T, S, P, Ac, H, Ab))
+		(writeln("\nWrite name:"), read(Name), 
+		add_to_base(Name, C, T, S, P, Ac, H, Ab))
 	).
 
 
@@ -133,7 +133,7 @@ restore_base:-
 
 
 add_to_base(M, C, T, S, P, Ac, H, Ab):-
-	assert(class(M, C)),
+	asserta(class(M, C)), class(X, C), writeln(X),
 	assert(type(M, T)), 
 	assert(sentient(M, S)),
 	assert(polymorphy(M, P)),
@@ -150,19 +150,19 @@ base_to_file:-
 	), told.
 
 
-get_monster(Monster):-
+get_monster([M, C, T, S, P, Ac, H, Ab]):-
 	class(M, C),
 	type(M, T), 
 	sentient(M, S),
 	polymorphy(M, P),
 	activity(M, Ac),
 	habitat(M, H),
-	abilities(M, Ab),
-	Monster = [M, C, T, S, P, Ac, H, Ab].
+	abilities(M, Ab), !.
+get_monster([nil, C, T, S, P, Ac, H, Ab]).
+	%Monster = [M, C, T, S, P, Ac, H, Ab].
 
 
 print([]):- nl.
 print([H|T]):-
 	write(H), write("\t"), print(T).
-
 
