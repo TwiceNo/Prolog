@@ -8,10 +8,10 @@ if_not(Cond, Else):-
 
 sum :- sum(0, 23).
 sum(S, X):-
-    X < 1000000, X1 is X+1, S1 is S+X, 
+    X < 10000, X1 is X+1, S1 is S+X, 
     if(condition(X), sum(S1, X1), sum(S, X1)).
 sum(S, X):-
-    X = 1000000, write("Sum = "), writeln(S), fail.
+    X = 10000, write("Sum = "), writeln(S), fail.
 
 
 condition(X):-

@@ -9,6 +9,61 @@
  */
 
 
+boxer(thomas, herbert).
+boxer(herbert, francis).
+boxer(francis, james).
+boxer(james, thomas).
+
+
+stronger(herbert, thomas).
+stronger(francis, thomas).
+stronger(francis, herbert).
+stronger(james, herbert).
+stronger(herbert, francis).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 in_list([El|_],El).
 in_list([_|T],El):-
 	in_list(T,El).
@@ -36,11 +91,11 @@ boxers:-
 		much_stronger(herbert_francis, thomas_herbert, Boxers);
 		much_stronger(thomas_herbert, james_thomas, Boxers)
 
-/*
+
 		much_stronger(herbert_francis, thomas_herbert, Boxers);
 		
 		much_stronger(thomas_herbert, james_thomas, Boxers)
-*/
+
 
 	),
 
@@ -83,10 +138,10 @@ boxers:-
 		much_stronger(francis_james, thomas_herbert, Boxers)
 
 
-/*
+
 		in_list(Boxers, [james_thomas, herbert_francis]);
 		in_list(Boxers, [francis_james, thomas_herbert])
-		*/
+		
 	),
 
 	(
@@ -98,10 +153,10 @@ boxers:-
 		stronger(thomas_herbert, herbert_francis, Boxers);
 		much_stronger(thomas_herbert, herbert_francis, Boxers)
 
-/*
+		
 		in_list(Boxers, [herbert_francis, francis_james]);
 		in_list(Boxers, [thomas_herbert, herbert_francis])
-		*/
+	
 	),
 	print(Boxers).
 
@@ -109,3 +164,5 @@ boxers:-
 print([]).
 print([H|T]):-
 	writeln(H), print(T).
+
+*/

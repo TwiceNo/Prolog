@@ -27,3 +27,4 @@ siren	4	1	1	1	2	2	7
 water_hag	6	0	1	0	2	2	1	
 werewolf	1	0	1	1	0	0	3	
 wraith	9	1	0	0	2	0	1	
+grave_hag	6	0	1	0	0	6	5	
