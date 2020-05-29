@@ -20,7 +20,7 @@ monster:-
 	get_activity(Ac), get_habitat(H), 
 	get_abilities(Ab), 
 	get_monster([M, C, T, S, P, Ac, H, Ab]),
-	if(M = nil, (add_monster(Name, C, T, S, P, Ac, H, Ab), writeln(Name)), writeln(M)),
+	if(M =\= nil, writeln(M)),
 	base_to_file, restore_base.
 
 
@@ -111,7 +111,7 @@ add_monster(Name, C, T, S, P, Ac, H, Ab):-
 
 
 read_base:-
-	see('d:/repos/prlg/prolog/monster base.txt'),
+	see('monster base.txt'),
 	readln(Line), read_base(Line), seen.
 read_base([]).
 read_base([M, C, T, S, P, Ac, H, Ab]):-
@@ -143,7 +143,7 @@ add_to_base(M, C, T, S, P, Ac, H, Ab):-
 
 
 base_to_file:-
-	tell('d:/repos/prlg/prolog/monster base.txt'),
+	tell('monster base.txt'),
 	repeat,
 	(
 		(get_monster(Monster), print(Monster), fail); !
@@ -158,8 +158,8 @@ get_monster([M, C, T, S, P, Ac, H, Ab]):-
 	activity(M, Ac),
 	habitat(M, H),
 	abilities(M, Ab), !.
-get_monster([nil, C, T, S, P, Ac, H, Ab]).
-	%Monster = [M, C, T, S, P, Ac, H, Ab].
+get_monster([nil, C, T, S, P, Ac, H, Ab]):-
+	add_monster(_, C, T, S, P, Ac, H, Ab).
 
 
 print([]):- nl.
