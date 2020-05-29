@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="Backgrounds">
+    <file>quarter-fiend.png</file>
+    <file>half_fiend.png</file>
+    <file>books.png</file>
+    <file>fiend.png</file>
+    <file>transparent.png</file>
+    <file>hangman_tree.jpg</file>
+  </qresource>
+  <qresource prefix="Button">
+    <file alias="disabled">button_main_disabled.png</file>
+    <file alias="hover">button_main_hover.png</file>
+    <file alias="off">button_main_off.png</file>
+    <file alias="on">button_main_on.png</file>
+  </qresource>
+</RCC>

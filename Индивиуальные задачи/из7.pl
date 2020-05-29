@@ -20,7 +20,11 @@ monster:-
 	get_activity(Ac), get_habitat(H), 
 	get_abilities(Ab), 
 	get_monster([M, C, T, S, P, Ac, H, Ab]),
+<<<<<<< HEAD
 	if(M = nil, !, writeln(M)),
+=======
+	if(M =\= nil, writeln(M)),
+>>>>>>> master
 	base_to_file, restore_base.
 
 
@@ -111,7 +115,11 @@ add_monster(Name, C, T, S, P, Ac, H, Ab):-
 
 
 read_base:-
+<<<<<<< HEAD
 	see('d:/repos/prlg/prolog/monster_base.txt'),
+=======
+	see('monster base.txt'),
+>>>>>>> master
 	readln(Line), read_base(Line), seen.
 read_base([]).
 read_base([M, C, T, S, P, Ac, H, Ab]):-
@@ -143,7 +151,11 @@ add_to_base(M, C, T, S, P, Ac, H, Ab):-
 
 
 base_to_file:-
+<<<<<<< HEAD
 	tell('d:/repos/prlg/prolog/monster_base.txt'),
+=======
+	tell('monster base.txt'),
+>>>>>>> master
 	repeat,
 	(
 		(class(M, C),
@@ -164,7 +176,11 @@ get_monster([M, C, T, S, P, Ac, H, Ab]):-
 	polymorphy(M, P),
 	activity(M, Ac),
 	habitat(M, H),
+<<<<<<< HEAD
 	abilities(M, Ab).
+=======
+	abilities(M, Ab), !.
+>>>>>>> master
 get_monster([nil, C, T, S, P, Ac, H, Ab]):-
 	add_monster(_, C, T, S, P, Ac, H, Ab).
 

@@ -111,7 +111,7 @@ add_monster(Name, C, T, S, P, Ac, H, Ab):-
 
 
 read_base:-
-	see('d:/repos/prlg/prolog/monster_base.txt'),
+	see('d:/repos/iz8/monster_base.txt'),
 	readln(Line), read_base(Line), seen.
 read_base([]).
 read_base([M, C, T, S, P, Ac, H, Ab]):-
@@ -143,7 +143,7 @@ add_to_base(M, C, T, S, P, Ac, H, Ab):-
 
 
 base_to_file:-
-	tell('d:/repos/prlg/prolog/monster_base.txt'),
+	tell('d:/repos/iz8/monster_base.txt'),
 	repeat,
 	(
 		(class(M, C),
