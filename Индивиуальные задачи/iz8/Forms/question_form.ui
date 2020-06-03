@@ -18,8 +18,39 @@
 {
 	border-image: url(:/Backgrounds/fiend.png);
 }
+QPushButton
+{
+	font: 81 8pt &quot;GWENT&quot;;
+	color: rgb(247,247,247);
+	border-image: url(:/Button/off);
+}
 
-</string>
+QPushButton:hover:!pressed
+{
+	font: 81 8pt &quot;GWENT&quot;;
+	color: rgb(247,247,247);
+	border-image: url(:/Button/hover);
+}
+
+QPushButton:pressed
+{
+	font: 81 8pt &quot;GWENT&quot;;
+	color: rgb(17,17,17);
+	border-image: url(:/Button/on);
+}
+
+QPushButton:disabled
+{
+	font: 81 8pt &quot;GWENT&quot;;
+	color: rgb(255, 255, 255);
+	border-image: url(:/Button/disabled);
+}
+
+QRadioButton
+{
+	font: 81 8pt &quot;GWENT&quot;;
+	color: rgb(255, 255, 255);
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -237,33 +268,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(247,247,247);
-	border-image: url(:/Button/off);
-}
-
-QPushButton:hover:!pressed
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(247,247,247);
-	border-image: url(:/Button/hover);
-}
-
-QPushButton:pressed
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(17,17,17);
-	border-image: url(:/Button/on);
-}
-
-QPushButton:disabled
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(255, 255, 255);
-	border-image: url(:/Button/disabled);
-}</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Предыдущий</string>
@@ -301,33 +306,7 @@ QPushButton:disabled
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(247,247,247);
-	border-image: url(:/Button/off);
-}
-
-QPushButton:hover:!pressed
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(247,247,247);
-	border-image: url(:/Button/hover);
-}
-
-QPushButton:pressed
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(17,17,17);
-	border-image: url(:/Button/on);
-}
-
-QPushButton:disabled
-{
-	font: 81 8pt &quot;GWENT&quot;;
-	color: rgb(255, 255, 255);
-	border-image: url(:/Button/disabled);
-}</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Следующий</string>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'forms\add_dialog.ui'
+# Form implementation generated from reading ui file 'd:\repos\iz8\forms\add_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.2
 #
@@ -8,10 +8,11 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import resources
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
+        Dialog.setWindowTitle("Добавить")
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 200)
         Dialog.setStyleSheet("QDialog\n"
@@ -168,4 +169,3 @@ class Ui_Dialog(object):
         self.yes_button.setShortcut(_translate("Dialog", "Return"))
         self.no_button.setText(_translate("Dialog", "Нет"))
         self.no_button.setShortcut(_translate("Dialog", "Return"))
-import Resources_rc

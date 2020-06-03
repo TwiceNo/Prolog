@@ -110,8 +110,8 @@ add_monster(Name, C, T, S, P, Ac, H, Ab):-
 	).
 
 
-read_base:-
-	see('d:/repos/iz8/monster_base.txt'),
+read_base(Path):-
+	see(Path),
 	readln(Line), read_base(Line), seen.
 read_base([]).
 read_base([M, C, T, S, P, Ac, H, Ab]):-
@@ -142,8 +142,8 @@ add_to_base(M, C, T, S, P, Ac, H, Ab):-
 	assert(abilities(M, Ab)).
 
 
-base_to_file:-
-	tell('d:/repos/iz8/monster_base.txt'),
+base_to_file(Path):-
+	tell(Path),
 	repeat,
 	(
 		(class(M, C),
