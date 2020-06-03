@@ -67,7 +67,7 @@ class Ui_popUp(object):
         self.ok_button.setMinimumSize(QtCore.QSize(100, 23))
         self.ok_button.setStyleSheet("")
         self.ok_button.setAutoDefault(False)
-        self.ok_button.setObjectName("ok_button")
+        self.ok_button.setObjectName("button")
         self.horizontalLayout.addWidget(self.ok_button)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)

@@ -1,5 +1,81 @@
-import base_view, question_form, main_window, pop_up, convert, pyswip
-from PyQt5 import QtWidgets
+import base_view, question_form, main_window, pop_up, add_dialog, add_picture, name_input, result_form, convert
+from PyQt5 import QtWidgets, QtGui
+from PIL import Image
+import sys
+
+
+class Result(QtWidgets.QDialog, result_form.Ui_result):
+    name = get_name()
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Результат")
+        self.set_name()
+        self.ok_button.clicked.connect(self.exit)
+
+    def set_name(self):
+        self.monster_name.setText(convert.monster_name[self.name])
+        path = "Pictures\{}.jpg".format(self.name)
+        picture = QtGui.QPixmap(path)
+        picture = picture.scaledToHeight(355)
+        self.picture.setPixmap(picture)
+
+    def exit(self):
+        self.close()
+
+
+class AddPicture(QtWidgets.QDialog, add_picture.Ui_Dialog):
+    path = ""
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Добавить")
+        self.file_view.clicked.connect(self.browse)
+        self.later.clicked.connect(self.exit)
+
+    def browse(self):
+        self.path = QtWidgets.QFileDialog.getOpenFileName()
+        self.exit()
+
+    def exit(self):
+        self.close()
+
+
+class NameInput(QtWidgets.QDialog, name_input.Ui_Dialog):
+    name = ""
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Добавить")
+        self.ok_button.clicked.connect(self.handler)
+
+    def handler(self):
+        if self.lineEdit.text() == '':
+            pop = PopUp()
+            pop.label.setText("Необходимо ввести имя")
+            pop.exec_()
+        else:
+            self.name = self.lineEdit.text()
+            add_p = AddPicture()
+            add_p.exec_()
+            self.close()
+
+
+class AddDialog(QtWidgets.QDialog, add_dialog.Ui_Dialog):
+    val = -1
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Добавить")
+        self.no_button.clicked.connect(self.onClick)
+        self.yes_button.clicked.connect(self.onClick)
+
+    def onClick(self):
+        button = self.sender()
+        if button == self.yes_button:
+            self.val = 1
+        elif button == self.no_button:
+            self.val = 0
 
 
 class PopUp(QtWidgets.QDialog, pop_up.Ui_popUp):
@@ -21,8 +97,8 @@ class BaseView(QtWidgets.QDialog, base_view.Ui_Dialog):
         self.ok_button.clicked.connect(self.exit)
 
     def print_base(self):
-        file_content = open("monster_base.txt", 'r')
-        file_content = file_content.read().split("\n")
+        file = open("monster_base.txt", 'r')
+        file_content = file.read().split("\n")
         self.tableView.setRowCount(len(file_content))
 
         for i in range(len(file_content)):
@@ -38,6 +114,7 @@ class BaseView(QtWidgets.QDialog, base_view.Ui_Dialog):
 
         self.tableView.resizeRowsToContents()
         self.tableView.resizeColumnsToContents()
+        file.close()
 
     def exit(self):
         self.close()
@@ -325,7 +402,14 @@ def show_question(window, num):
 
 
 def show_result(user_answers):
-    prolog = pyswip.Prolog()
-    #prolog.consult("akinator.pl")
-    #prolog.read_base('monster_base.txt')
+    pass
 
+
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = Result()
+    window.show()
+    app.exec_()
+
+
+main()

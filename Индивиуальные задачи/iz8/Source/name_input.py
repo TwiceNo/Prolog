@@ -139,7 +139,7 @@ class Ui_Dialog(object):
 "    border-image: url(:/Button/disabled);\n"
 "}")
         self.ok_button.setAutoDefault(False)
-        self.ok_button.setObjectName("ok_button")
+        self.ok_button.setObjectName("button")
         self.horizontalLayout.addWidget(self.ok_button)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem3)

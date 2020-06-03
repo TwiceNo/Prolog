@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\repos\iz8\forms\result_form.ui'
+# Form implementation generated from reading ui file 'd:\repos\witcher\forms\result_form.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.2
 #
@@ -8,16 +8,20 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import resources
+
 
 class Ui_result(object):
     def setupUi(self, result):
-        result.setWindowTitle("Результат")
         result.setObjectName("result")
         result.resize(350, 466)
         result.setStyleSheet("QDialog\n"
 "{\n"
 "    border-image: url(:/Backgrounds/half_fiend.png);\n"
+"}\n"
+"QLabel \n"
+"{\n"
+"    color: rgb(247,247,247);\n"
+"    font: 81 12pt \"GWENT\";\n"
 "}")
         self.verticalLayout = QtWidgets.QVBoxLayout(result)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -74,12 +78,7 @@ class Ui_result(object):
         font.setWeight(10)
         self.label.setFont(font)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label.setStyleSheet("QLabel \n"
-"{\n"
-"    border-image: url(:/mainWindow/transparent.png);\n"
-"    color: rgb(247,247,247);\n"
-"    font: 81 12pt \"GWENT\";\n"
-"}")
+        self.label.setStyleSheet("")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
@@ -136,12 +135,7 @@ class Ui_result(object):
         font.setWeight(10)
         self.monster_name.setFont(font)
         self.monster_name.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.monster_name.setStyleSheet("QLabel \n"
-"{\n"
-"    border-image: url(:/mainWindow/transparent.png);\n"
-"    color: rgb(247,247,247);\n"
-"    font: 81 12pt \"GWENT\";\n"
-"}")
+        self.monster_name.setStyleSheet("")
         self.monster_name.setAlignment(QtCore.Qt.AlignCenter)
         self.monster_name.setObjectName("monster_name")
         self.verticalLayout.addWidget(self.monster_name)
@@ -152,7 +146,9 @@ class Ui_result(object):
         sizePolicy.setHeightForWidth(self.picture.sizePolicy().hasHeightForWidth())
         self.picture.setSizePolicy(sizePolicy)
         self.picture.setMinimumSize(QtCore.QSize(330, 350))
+        self.picture.setStyleSheet("")
         self.picture.setText("")
+        self.picture.setAlignment(QtCore.Qt.AlignCenter)
         self.picture.setObjectName("picture")
         self.verticalLayout.addWidget(self.picture)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -203,3 +199,4 @@ class Ui_result(object):
         self.label.setText(_translate("result", "Ваш результат:"))
         self.monster_name.setText(_translate("result", "TextLabel"))
         self.ok_button.setText(_translate("result", "OK"))
+

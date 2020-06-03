@@ -121,7 +121,7 @@ class Ui_Dialog(object):
 "    color: rgb(255, 255, 255);\n"
 "    border-image: url(:/Button/disabled);\n"
 "}")
-        self.ok_button.setObjectName("ok_button")
+        self.ok_button.setObjectName("button")
         self.horizontalLayout.addWidget(self.ok_button)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
