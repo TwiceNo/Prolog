@@ -1,21 +1,28 @@
-import base_view, question_form, main_window, pop_up, add_dialog, add_picture, name_input, result_form, convert
+import base_view, question_form, main_window, pop_up, add_dialog, add_picture
+import name_input, result_form, convert, prolog_adapted, os
 from PyQt5 import QtWidgets, QtGui
-from PIL import Image
-import sys
+import shutil
+
 
 
 class Result(QtWidgets.QDialog, result_form.Ui_result):
-    name = get_name()
-    def __init__(self):
+    name = ""
+    def __init__(self, name):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Результат")
+        self.name = name
         self.set_name()
+        self.set_image()
         self.ok_button.clicked.connect(self.exit)
 
     def set_name(self):
-        self.monster_name.setText(convert.monster_name[self.name])
-        path = "Pictures\{}.jpg".format(self.name)
+        self.monster_name.setText(convert.key_to_name(self.name))
+
+    def set_image(self):
+        path = os.getcwd().replace("/", "\\")
+        path = path[0: path.rfind("\\")]
+        path += "\\Pictures\\{}.png".format(self.name)
         picture = QtGui.QPixmap(path)
         picture = picture.scaledToHeight(355)
         self.picture.setPixmap(picture)
@@ -25,17 +32,27 @@ class Result(QtWidgets.QDialog, result_form.Ui_result):
 
 
 class AddPicture(QtWidgets.QDialog, add_picture.Ui_Dialog):
-    path = ""
-    def __init__(self):
+    path, name = "", ""
+    def __init__(self, name):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Добавить")
+        self.name = name
+
         self.file_view.clicked.connect(self.browse)
         self.later.clicked.connect(self.exit)
 
     def browse(self):
-        self.path = QtWidgets.QFileDialog.getOpenFileName()
+        self.path = QtWidgets.QFileDialog.getOpenFileName(filter="Изображения (*.png)")[0].replace('/', '\\')
+        pic_name = self.path[self.path.rfind('\\') + 1:]
+        dir = os.getcwd().replace('/', '\\')
+        dir = dir[0: dir.rfind("\\")]
+        new_loc = dir + "\\Pictures\\"
+        picture_file_name = "{}\\{}.png".format(new_loc, convert.name_to_key(self.name))
+        shutil.copy(self.path, picture_file_name)
+        #os.rename(new_loc, picture_file_name)
         self.exit()
+
 
     def exit(self):
         self.close()
@@ -56,7 +73,7 @@ class NameInput(QtWidgets.QDialog, name_input.Ui_Dialog):
             pop.exec_()
         else:
             self.name = self.lineEdit.text()
-            add_p = AddPicture()
+            add_p = AddPicture(self.name)
             add_p.exec_()
             self.close()
 
@@ -76,6 +93,7 @@ class AddDialog(QtWidgets.QDialog, add_dialog.Ui_Dialog):
             self.val = 1
         elif button == self.no_button:
             self.val = 0
+        self.close()
 
 
 class PopUp(QtWidgets.QDialog, pop_up.Ui_popUp):
@@ -103,14 +121,16 @@ class BaseView(QtWidgets.QDialog, base_view.Ui_Dialog):
 
         for i in range(len(file_content)):
             line = file_content[i].split("\t")
-            self.tableView.setItem(i, 0, QtWidgets.QTableWidgetItem(convert.monster_name[line[0]]))
-            self.tableView.setItem(i, 1, QtWidgets.QTableWidgetItem(convert.monster_class[line[1]]))
-            self.tableView.setItem(i, 2, QtWidgets.QTableWidgetItem(convert.monster_type[line[2]]))
-            self.tableView.setItem(i, 3, QtWidgets.QTableWidgetItem(convert.monster_sen[line[3]]))
-            self.tableView.setItem(i, 4, QtWidgets.QTableWidgetItem(convert.monster_poly[line[4]]))
-            self.tableView.setItem(i, 5, QtWidgets.QTableWidgetItem(convert.monster_act[line[5]]))
-            self.tableView.setItem(i, 6, QtWidgets.QTableWidgetItem(convert.monster_hab[line[6]]))
-            self.tableView.setItem(i, 7, QtWidgets.QTableWidgetItem(convert.monster_ab[line[7]]))
+            if line[0] == "": break
+            else:
+                self.tableView.setItem(i, 0, QtWidgets.QTableWidgetItem(convert.key_to_name(line[0])))
+                self.tableView.setItem(i, 1, QtWidgets.QTableWidgetItem(convert.monster_class[line[1]]))
+                self.tableView.setItem(i, 2, QtWidgets.QTableWidgetItem(convert.monster_type[line[2]]))
+                self.tableView.setItem(i, 3, QtWidgets.QTableWidgetItem(convert.monster_sen[line[3]]))
+                self.tableView.setItem(i, 4, QtWidgets.QTableWidgetItem(convert.monster_poly[line[4]]))
+                self.tableView.setItem(i, 5, QtWidgets.QTableWidgetItem(convert.monster_act[line[5]]))
+                self.tableView.setItem(i, 6, QtWidgets.QTableWidgetItem(convert.monster_hab[line[6]]))
+                self.tableView.setItem(i, 7, QtWidgets.QTableWidgetItem(convert.monster_ab[line[7]]))
 
         self.tableView.resizeRowsToContents()
         self.tableView.resizeColumnsToContents()
@@ -265,7 +285,11 @@ class MainApp(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 elif window.val == -1:
                     self.answers.pop(len(self.answers) - 1)
                 self.current_question += window.val
-        show_result(self.answers)
+        prolog = prolog_adapted.ProcessManagement(self.answers, os.getcwd())
+        prolog.get_monster()
+        self.current_question = 0
+        self.answers = []
+
 
 
 def show_question(window, num):
@@ -346,7 +370,7 @@ def show_question(window, num):
         window.moun = QtWidgets.QRadioButton("Горы, возвышенности, пещеры")
         window.wate = QtWidgets.QRadioButton("Водоемы")
         window.rura = QtWidgets.QRadioButton("Сельская местность")
-        window.wood = QtWidgets.QRadioButton("Леса")
+        window.wood = QtWidgets.QRadioButton("Леса, болота")
         window.unde = QtWidgets.QRadioButton("Под Землей")
         window.ceme = QtWidgets.QRadioButton("Кладбища, поля битв")
         window.cast = QtWidgets.QRadioButton("Замки, руины")
@@ -401,15 +425,6 @@ def show_question(window, num):
         window.forc.toggled.connect(window.onToggledAb)
 
 
-def show_result(user_answers):
-    pass
-
-
-def main():
-    app = QtWidgets.QApplication(sys.argv)
-    window = Result()
-    window.show()
-    app.exec_()
-
-
-main()
+def show_result(name):
+    window = Result(name)
+    window.exec_()

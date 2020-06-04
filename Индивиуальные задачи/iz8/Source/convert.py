@@ -73,3 +73,87 @@ monster_ab = {'0': "Нет особой",
               '7': "Атакует с высоты",
               '8': "Атакует силами стихий"
              }
+
+
+transl_dict = {" ": '_',
+               "а": "a",
+               "б": "b",
+               "в": "v",
+               "г": "g",
+               "д": "d",
+               "е": "e",
+               "ё": "yo",
+               "ж": "zh",
+               "з": "z",
+               "и": "i",
+               "й": "y",
+               "к": "k",
+               "л": "l",
+               "м": "m",
+               "н": "n",
+               "о": "o",
+               "п": "p",
+               "р": "r",
+               "с": "s",
+               "т": "t",
+               "у": "u",
+               "ф": "f",
+               "х": "h",
+               "ц": "c",
+               "ч": "ch",
+               "ш": "sh",
+               "щ": "sch",
+               "ъ": "yyy",
+               "ь": "iii",
+               "ы": "yy",
+               "э": "eee",
+               "ю": "yu",
+               "я": "ya"
+              }
+transl_len = [["щ", "ъ", "ь", "э"],
+              ["ё", "ж", "ч", "ш", "ы", "ю", "я"],
+              ["а", "б", "в", "г", "д", "е", "з", "и", "й", "к", "л",
+               "м", "н", "о", "п", "р", "с", "т", "у", "ф", "х", "с"]]
+
+
+#----------------------------------
+#-------Имя чудовища в ключ--------
+#----------------------------------
+
+
+def name_to_key(name):
+    for key in monster_name:
+        if name == monster_name[key]:
+            return key
+    key = translit_name(name)
+    return key
+
+def translit_name(name):
+    name = name.lower(); i = 0
+    while i < len(name):
+        if name[i] in transl_dict:
+            name = name.replace(name[i], transl_dict[name[i]])
+        i += 1
+    return name
+
+
+#----------------------------------
+#-------Ключ в имя чудовища--------
+#----------------------------------
+
+
+def key_to_name(key):
+    if key in monster_name:
+        return monster_name[key]
+    else:
+        key = translit_key(key)
+        return key
+
+def translit_key(key):
+    for part in transl_len:
+        for elem in part:
+            key = key.replace(transl_dict[elem], elem)
+    key = key.replace('_', ' ')
+    key = key.capitalize()
+    return key
+

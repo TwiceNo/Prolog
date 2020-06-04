@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_result(object):
     def setupUi(self, result):
         result.setObjectName("result")
-        result.resize(350, 466)
+        result.resize(350, 500)
         result.setStyleSheet("QDialog\n"
 "{\n"
 "    border-image: url(:/Backgrounds/half_fiend.png);\n"
